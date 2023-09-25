@@ -1,14 +1,35 @@
 import React, { FC, useState } from 'react';
 import { Text, View, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { EventScreenProps } from '../../routes/types';
+import { getDateMonth } from '../../constants';
 
 const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
     const [eventList, setEventList] = useState([
-        { name: 'event name', data: 'even data', location: '', price: '' },
-        { name: 'event name', data: 'even data', location: '', price: '' },
-        { name: 'event name', data: 'even data', location: '', price: '' },
-        { name: 'event name', data: 'even data', location: '', price: '' },
-        { name: 'event name', data: 'even data', location: '', price: '' },
+        {
+            id: '1', name: 'Bell Witch',
+            image: require('../../assets/images/1.png'),
+            data: '2023-09-25', location: 'The Park Theatre', price: '$35.00'
+        },
+        {
+            id: '2', name: 'Ten Foot Pole',
+            image: require('../../assets/images/2.png'),
+            data: '2023-09-26', location: 'The Park Theatre', price: '$25.16'
+        },
+        {
+            id: '3', name: 'Great Lake Swimmers',
+            image: require('../../assets/images/3.png'),
+            data: '2023-09-29', location: 'The Park Theatre', price: '$22.50'
+        },
+        {
+            id: '4', name: 'Good Riddance & Choke',
+            image: require('../../assets/images/4.png'),
+            data: '2023-09-30', location: 'The Park Theatre', price: '$35.96'
+        },
+        {
+            id: '5', name: 'Protest the Hero',
+            image: require('../../assets/images/5.png'),
+            data: '2023-10-06', location: 'The Park Theatre', price: '$25.16'
+        },
     ])
 
     return (
@@ -20,20 +41,20 @@ const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
                 {eventList.map((item, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() => navigation.navigate('Booking', { eventId: 'eventId-1', eventName: 'eventName-1' })}
+                        onPress={() => navigation.navigate('Booking', { eventId: item.id, eventName: item.name })}
                         style={styles.eventSection}
                     >
-                        <Image source={require('../../assets/images/event-1.jpg')} style={styles.eventImageStyle} />
+                        <Image source={item.image} style={styles.eventImageStyle} />
                         <View style={styles.dateContainer}>
-                            <Text style={styles.dateStyle}>11{"\n"}Dec</Text>
+                            <Text style={styles.dateStyle}>{getDateMonth(item.data)}</Text>
                         </View>
                         <View style={styles.bottomSection}>
                             <View style={{ width: '80%' }}>
-                                <Text style={[styles.eventText, { fontSize: 18 }]}>Event Name</Text>
-                                <Text style={[styles.eventText, { fontSize: 16 }]}>Location</Text>
+                                <Text style={[styles.eventText, { fontSize: 18 }]}>{item.name}</Text>
+                                <Text style={[styles.eventText, { fontSize: 16 }]}>{item.location}</Text>
                             </View>
                             <View style={styles.eventPriceContainer}>
-                                <Text style={styles.eventPriceText}>$45</Text>
+                                <Text style={styles.eventPriceText}>{item.price}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -62,7 +83,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200,
         borderRadius: 18,
-        opacity: 0.6
     },
     bottomSection: {
         height: 70,
@@ -82,7 +102,7 @@ const styles = StyleSheet.create({
     },
     eventPriceText: {
         color: '#000000',
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold'
     },
     eventPriceContainer: {

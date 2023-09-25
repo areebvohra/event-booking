@@ -48,21 +48,24 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
         else
             setTicketError(''), ticketValid = true
 
-        // if (!emailValid || !usernameValid || !ticketValid) {
-        //     return;
-        // }
+        if (!emailValid || !usernameValid || !ticketValid) {
+            return;
+        }
 
         navigation.navigate('Confirmation');
     }
 
     return (
         <View style={styles.container}>
+            <Text style={styles.label}>Event name</Text>
             <TextInput
                 style={[styles.input, { color: '#FFFFFF', borderColor: '#7a42f4' }]}
                 underlineColorAndroid="transparent"
                 value={eventName}
                 editable={false}
             />
+
+            <Text style={styles.label}>Enter your username</Text>
             <TextInput
                 style={[styles.input, { borderColor: usernameError.length > 0 ? 'red' : '#7a42f4' }]}
                 underlineColorAndroid="transparent"
@@ -74,6 +77,7 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
             />
             {usernameError.length > 0 && <Text style={{ color: '#FFFFFF' }}>{usernameError}</Text>}
 
+            <Text style={styles.label}>Enter your email</Text>
             <TextInput
                 style={[styles.input, { borderColor: emailError.length > 0 ? 'red' : '#7a42f4' }]}
                 underlineColorAndroid="transparent"
@@ -116,8 +120,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24
     },
     input: {
-        marginBottom: 5,
-        marginTop: 10,
+        marginVertical: 5,
         paddingLeft: 10,
         height: 50,
         borderWidth: 1.5,
@@ -173,5 +176,11 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    label: {
+        color: '#FFFFFF',
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: 10
     }
 });

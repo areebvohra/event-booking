@@ -11,3 +11,11 @@ export const Colors = {
     // background
     ui_light_selected_bg: "#E7F5FF",
 };
+
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export const getDateMonth = (value: string) => {
+    const date = new Date(value);
+    let month = months[date.getMonth()];
+    return `${date.getDate()}\n${month}`
+}
