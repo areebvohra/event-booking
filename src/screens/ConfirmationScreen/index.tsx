@@ -26,7 +26,7 @@ const ConfirmationScreen: FC<ConfirmationScreenProps> = ({ route, navigation }) 
                 <Text style={[styles.normalText, {}]}>For more information, please{'\n'}call us at <Text style={{ fontWeight: 'bold' }}>+971-524553421</Text></Text>
             </View>
 
-            <TouchableOpacity style={styles.submitBtn} onPress={() => navigation.navigate('Events', { bookingId })}>
+            <TouchableOpacity style={styles.submitBtn} onPress={() => navigation.navigate('Events')}>
                 <Text style={styles.submitBtnText}>Return to Events</Text>
             </TouchableOpacity>
         </View>
