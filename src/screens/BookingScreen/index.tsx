@@ -106,18 +106,18 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
         });
     };
 
-    const deleteAllBookings = () => {
-        db.transaction((txn: Transaction) => {
-            txn.executeSql(
-                `DELETE FROM bookings`, [],
-                () => {
-                    console.log('bookings deleted successfully');
-                    getBooking();
-                },
-                () => { },
-            );
-        });
-    }
+    // const deleteAllBookings = () => {
+    //     db.transaction((txn: Transaction) => {
+    //         txn.executeSql(
+    //             `DELETE FROM bookings`, [],
+    //             () => {
+    //                 console.log('bookings deleted successfully');
+    //                 getBooking();
+    //             },
+    //             () => { },
+    //         );
+    //     });
+    // }
 
     return (
         <View style={styles.container}>
