@@ -15,8 +15,8 @@ const AppStack: FC<AppStackProps> = ({ }) => {
     return (
         <Stack.Navigator
             screenOptions={{
-                headerStyle: { backgroundColor: '#262B4F', elevation: 0 },
-                headerTitleStyle: { color: '#FFFFFF' },
+                headerStyle: { backgroundColor: '#262B4F', elevation: 0, shadowOpacity: 0 },
+                headerTitleStyle: { color: '#FFFFFF', fontSize: 20 },
                 headerTitleAlign: 'center',
                 headerTintColor: '#FFFFFF'
             }}

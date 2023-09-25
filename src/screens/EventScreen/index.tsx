@@ -12,11 +12,11 @@ const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
     ])
 
     return (
-        <View style={{ backgroundColor: '#262B4F' }}>
-            <View style={{ paddingBottom: 18, paddingHorizontal: 25, }}>
+        <View style={styles.container}>
+            <View style={{ paddingBottom: 18 }}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>Upcoming Events</Text>
             </View>
-            <ScrollView contentContainerStyle={{ paddingHorizontal: 25, paddingBottom: '20%' }} showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={{ paddingBottom: '20%' }} showsVerticalScrollIndicator={false}>
                 {eventList.map((item, index) => (
                     <TouchableOpacity
                         key={index}
@@ -47,6 +47,11 @@ const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
 export default EventScreen;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#262B4F',
+        paddingHorizontal: 24
+    },
     eventSection: {
         width: '100%',
         height: 200,
