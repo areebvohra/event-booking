@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Text, View, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
+
 import { EventScreenProps } from '../../routes/types';
 import { getDateMonth } from '../../constants';
 
@@ -30,7 +31,7 @@ const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
             image: require('../../assets/images/5.png'),
             data: '2023-10-06', location: 'The Park Theatre', price: '$25.16'
         },
-    ])
+    ]);
 
     return (
         <View style={styles.container}>
@@ -41,7 +42,9 @@ const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
                 {eventList.map((item, index) => (
                     <TouchableOpacity
                         key={index}
-                        onPress={() => navigation.navigate('Booking', { eventId: item.id, eventName: item.name })}
+                        onPress={() => {
+                            navigation.navigate('Booking', { eventId: item.id, eventName: item.name })
+                        }}
                         style={styles.eventSection}
                     >
                         <Image source={item.image} style={styles.eventImageStyle} />

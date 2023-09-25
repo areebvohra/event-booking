@@ -1,14 +1,19 @@
 import React, { FC, useState } from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
+import { ResultSet, SQLError, Transaction, openDatabase, } from 'react-native-sqlite-storage';
 
 import { BookingScreenProps } from '../../routes/types';
+
+const db: any = openDatabase({
+    name: 'bookings'
+})
 
 const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
     const { eventId, eventName } = route.params;
 
-    const [ticketsCount, setTicketsCount] = useState(0);
-    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [ticketsCount, setTicketsCount] = useState(0);
     const [emailError, setEmailError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [ticketError, setTicketError] = useState('');
@@ -52,7 +57,66 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
             return;
         }
 
-        navigation.navigate('Confirmation');
+        addBooking();
+    }
+
+    const addBooking = () => {
+        db.transaction((txn: Transaction) => {
+            txn.executeSql(
+                `INSERT INTO bookings (username, email, tickets, eventId) VALUES (?,?,?,?)`,
+                [username, email, ticketsCount, eventId],
+                (txn: Transaction, res: ResultSet) => {
+                    console.log('booking added successfully');
+                    getBooking();
+                    navigation.navigate('Confirmation', { email, bookingId: res.insertId.toString() });
+                },
+                (transaction: any, error: SQLError) => {
+                    Alert.alert('Execution error', transaction.message);
+                    console.log("error on adding booking", error.message);
+                },
+            );
+        });
+    };
+
+    const getBooking = () => {
+        db.transaction((txn: Transaction) => {
+            txn.executeSql(
+                `SELECT * FROM bookings ORDER BY id DESC`, [],
+                (sqlTxn: Transaction, res: ResultSet) => {
+                    let len = res.rows.length;
+
+                    if (len > 0) {
+                        let results = [];
+                        for (let i = 0; i < len; i++) {
+                            let item = res.rows.item(i);
+                            results.push({ ...item });
+                        }
+
+                        console.log('====================================');
+                        console.log('get booking ===', results);
+                        console.log('====================================');
+                    } else {
+                        console.log('bookings table empty');
+                    }
+                },
+                (transaction: Transaction, error: SQLError) => {
+                    console.log("error on getting bookings", error.message);
+                },
+            );
+        });
+    };
+
+    const deleteAllBookings = () => {
+        db.transaction((txn: Transaction) => {
+            txn.executeSql(
+                `DELETE FROM bookings`, [],
+                () => {
+                    console.log('bookings deleted successfully');
+                    getBooking();
+                },
+                () => { },
+            );
+        });
     }
 
     return (
@@ -70,7 +134,6 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
                 style={[styles.input, { borderColor: usernameError.length > 0 ? 'red' : '#7a42f4' }]}
                 underlineColorAndroid="transparent"
                 placeholder="Username"
-                placeholderTextColor="#FFFFFF"
                 autoCapitalize="none"
                 onChangeText={value => setUsername(value)}
                 defaultValue={username}
@@ -82,7 +145,6 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
                 style={[styles.input, { borderColor: emailError.length > 0 ? 'red' : '#7a42f4' }]}
                 underlineColorAndroid="transparent"
                 placeholder="Email"
-                placeholderTextColor="#FFFFFF"
                 autoCapitalize="none"
                 onChangeText={value => setEmail(value)}
                 defaultValue={email}
@@ -168,6 +230,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#7a42f4',
         width: '100%',
         paddingVertical: 15,
+        marginVertical: 5,
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center'
