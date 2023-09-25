@@ -18,7 +18,8 @@ const AppStack: FC<AppStackProps> = ({ }) => {
                 headerStyle: { backgroundColor: '#262B4F', elevation: 0, shadowOpacity: 0 },
                 headerTitleStyle: { color: '#FFFFFF', fontSize: 20 },
                 headerTitleAlign: 'center',
-                headerTintColor: '#FFFFFF'
+                headerTintColor: '#FFFFFF',
+                gestureEnabled: false
             }}
         >
             <Stack.Screen name="Events" component={EventScreen} />

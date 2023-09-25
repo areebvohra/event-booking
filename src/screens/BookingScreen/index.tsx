@@ -48,9 +48,9 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
         else
             setTicketError(''), ticketValid = true
 
-        if (!emailValid || !usernameValid || !ticketValid) {
-            return;
-        }
+        // if (!emailValid || !usernameValid || !ticketValid) {
+        //     return;
+        // }
 
         navigation.navigate('Confirmation');
     }
