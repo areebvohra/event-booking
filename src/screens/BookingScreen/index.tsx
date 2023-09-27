@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { ResultSet, SQLError, Transaction, openDatabase, } from 'react-native-sqlite-storage';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { BookingScreenProps } from '../../routes/types';
+import { baseURL } from '../../constants';
 
 const db: any = openDatabase({
     name: 'bookings'
@@ -57,7 +59,8 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
             return;
         }
 
-        addBooking();
+        senddata();
+        // addBooking();
     }
 
     const addBooking = () => {
@@ -105,6 +108,28 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
             );
         });
     };
+
+    const senddata = () => {
+        const url = `${baseURL}/booking`;
+        const params = {
+            "event_name": eventName,
+            "username": username,
+            "email": email,
+            "no_of_tickets": ticketsCount,
+            "eventId": eventId,
+        }
+
+        axios.post(url, params)
+            .then(async (response: AxiosResponse) => {
+                console.log('====================================');
+                console.log(response.data.message);
+                console.log('====================================');
+            }).catch(async (error: AxiosError | any) => {
+                console.log('====================================');
+                console.log(error.message);
+                console.log('====================================');
+            });
+    }
 
     // const deleteAllBookings = () => {
     //     db.transaction((txn: Transaction) => {
