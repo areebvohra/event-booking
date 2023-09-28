@@ -59,8 +59,7 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
             return;
         }
 
-        senddata();
-        // addBooking();
+        addBooking();
     }
 
     const addBooking = () => {
@@ -70,7 +69,7 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
                 [username, email, ticketsCount, eventId],
                 (txn: Transaction, res: ResultSet) => {
                     console.log('booking added successfully');
-                    getBooking();
+                    // getBooking();
                     navigation.navigate('Confirmation', { email, bookingId: res.insertId.toString() });
                 },
                 (transaction: any, error: SQLError) => {
@@ -79,37 +78,11 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
                 },
             );
         });
+
+        sendData();
     };
 
-    const getBooking = () => {
-        db.transaction((txn: Transaction) => {
-            txn.executeSql(
-                `SELECT * FROM bookings ORDER BY id DESC`, [],
-                (sqlTxn: Transaction, res: ResultSet) => {
-                    let len = res.rows.length;
-
-                    if (len > 0) {
-                        let results = [];
-                        for (let i = 0; i < len; i++) {
-                            let item = res.rows.item(i);
-                            results.push({ ...item });
-                        }
-
-                        console.log('====================================');
-                        console.log('get booking ===', results);
-                        console.log('====================================');
-                    } else {
-                        console.log('bookings table empty');
-                    }
-                },
-                (transaction: Transaction, error: SQLError) => {
-                    console.log("error on getting bookings", error.message);
-                },
-            );
-        });
-    };
-
-    const senddata = () => {
+    const sendData = () => {
         const url = `${baseURL}/booking`;
         const params = {
             "event_name": eventName,
@@ -130,6 +103,34 @@ const BookingScreen: FC<BookingScreenProps> = ({ route, navigation }) => {
                 console.log('====================================');
             });
     }
+
+    // const getBooking = () => {
+    //     db.transaction((txn: Transaction) => {
+    //         txn.executeSql(
+    //             `SELECT * FROM bookings ORDER BY id DESC`, [],
+    //             (sqlTxn: Transaction, res: ResultSet) => {
+    //                 let len = res.rows.length;
+
+    //                 if (len > 0) {
+    //                     let results = [];
+    //                     for (let i = 0; i < len; i++) {
+    //                         let item = res.rows.item(i);
+    //                         results.push({ ...item });
+    //                     }
+
+    //                     console.log('====================================');
+    //                     console.log('get booking ===', results);
+    //                     console.log('====================================');
+    //                 } else {
+    //                     console.log('bookings table empty');
+    //                 }
+    //             },
+    //             (transaction: Transaction, error: SQLError) => {
+    //                 console.log("error on getting bookings", error.message);
+    //             },
+    //         );
+    //     });
+    // };
 
     // const deleteAllBookings = () => {
     //     db.transaction((txn: Transaction) => {

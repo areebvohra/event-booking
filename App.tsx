@@ -1,5 +1,4 @@
 import React, { FC, useEffect } from 'react';
-import 'react-native-gesture-handler';
 import { ResultSet, SQLError, SQLiteDatabase, Transaction, openDatabase, } from 'react-native-sqlite-storage';
 
 import Routes from './src/routes';

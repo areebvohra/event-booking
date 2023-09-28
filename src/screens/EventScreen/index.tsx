@@ -56,6 +56,11 @@ const EventScreen: FC<EventScreenProps> = ({ navigation }) => {
                     </TouchableOpacity>
                 ))
                 }
+                {eventList.length === 0 && (
+                    <View>
+                        <Text style={{ color: '#FFFFFF' }}>no upcoming events</Text>
+                    </View>
+                )}
             </ScrollView>
         </View>
     );
